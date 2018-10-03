@@ -1,0 +1,65 @@
+#include <strings.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <netinet/in.h>
+
+int verifica_par(int num)
+{
+	if (num % 2 == 0)
+		return 1;
+	return 0;
+}
+
+int main(int argc, char **argv)
+{
+	int sock_fd, sock_len, sock_novo, num;
+	socklen_t nock_novo_len;
+	struct sockaddr_un sock_ser, sock_cli;
+	char msg[100];
+
+	sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock_fd < 0) {
+		printf("Erro ao criar o Socket \n");
+			exit(0);
+	}
+
+	unlink("socket.unix.teste");
+
+	bzero((char*)&sock_ser, sizeof(sock_ser));
+	sock_ser.sun_family = AF_INET;
+	strcpy(sock_ser.sun_path, "socket_unix.teste2");
+	sock_len = strlen(sock_ser.sun_path) + sizeof(sock_ser.sun_family);
+	sock_ser.sin_port=htons(9002);
+	socko
+_ser.sin_addr.s_addr=INADDR_ANY;
+
+	if (bind(sock_fd, (struct sockaddr*)&sock_ser, sock_len) < 0) {
+		printf("Erro ao associar o nome ao socket \n");
+		exit(0);
+	}
+
+	listen(sock_fd, 5);
+
+	while (1)
+	{
+		int sock_novo_len = sizeof(sock_cli);
+		sock_novo = accept(sock_fd, (struct sockaddr*)&sock_cli, &sock_novo_len);
+
+		if (sock_novo < 0)
+		{
+			printf("Erro ao conectar com o cliente \n");
+			exit(0);
+		}
+		else printf("Conectado");
+		
+
+		}
+
+	}
+
+
+}
